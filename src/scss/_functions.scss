@@ -1,0 +1,481 @@
+//? grid-simple main layout
+@mixin mainLayout($min-height:100dvh,$header-height:auto,$content-height:1fr,$footer-height:auto)
+{
+    min-height: $min-height;
+    display: grid;
+    grid-template-rows: 
+        $header-height
+        1fr
+        $footer-height;
+};
+
+//? grid-container function
+@mixin makeGrid($columns:auto-fit,$columns-min-max:(30rem,100%),$gap:1rem,$align-items:center,$justify-items:center,$rows-auto: false, $rows-auto-value: auto)
+{
+    $min-col-size-1 : nth($columns-min-max,1);
+    $min-col-size-2 : nth($columns-min-max,2);
+
+    display: grid;
+    grid-template-columns: repeat($columns,min($min-col-size-1, $min-col-size-2), 1fr);
+    gap:$gap;
+    align-items: $align-items;
+    justify-items: $justify-items;
+
+    @if $rows-auto == false
+    {
+        grid-auto-rows: auto;
+    } 
+    @else 
+    {
+        grid-auto-rows: $rows-auto-value;
+    }
+};
+
+//? gridarea placed function
+@mixin placeItemInGrid($area-name, $horizontal, $vertical)
+{
+    $positions : (
+        1 : center,
+        2 : flex-start,
+        3 : flex-end,
+    );
+
+    grid-area: $area-name;
+    justify-self: map-get($positions, $horizontal);
+    align-self: map-get($positions, $vertical);
+};
+
+//? grid area properties
+@mixin gridPlaceStyling($horizontal,$vertical,$padding:($inline, $block),$gap:null)
+{
+    $positions : (
+        1 : center,
+        2 : flex-start,
+        3 : flex-end,
+    );
+
+    gap: $gap;
+    padding-inline: nth($padding,1);
+    padding-block: nth($padding,2);
+    justify-items: map-get($positions, $horizontal);
+    align-items: map-get($positions, $vertical);
+};
+
+//? flex-container function
+@mixin makeFlex($direction:row, $horizontal, $vertical, $gap:1rem, $wrap:nowrap)
+{
+    $positions : (
+        1 : center,
+        2 : flex-start,
+        3 : flex-end,
+        4 : space-around,
+        5 : space-between,
+        0 : auto
+    );
+
+    display: flex;
+    flex-direction: $direction;
+    justify-content: map-get($positions, $horizontal);
+    align-items: map-get($positions, $vertical);
+    gap: $gap;
+    flex-wrap: $wrap;
+};
+
+//? border for elements
+@mixin makeBorder($type:0, $style:solid, $width:.1rem, $color, $radius:1rem)
+{
+    $place : (
+        0 : '',
+        1 : '-left',
+        2 : '-top',
+        3 : '-bottom',
+        4 : '-right'
+    );
+
+    border#{map-get($place, $type)} : {
+        width : $width;
+        style : $style;
+        color : $color;
+    }
+    border-radius: $radius;
+};
+
+//? border for elements each side
+@mixin makeBorderEach($widths:($top,$right,$bottom,$left),$style:($top,$right,$bottom,$left),$color:($top,$right,$bottom,$left),$radius:($t-right,$b-right,$b-left,$t-left))
+{
+    border: {
+        top: nth($widths,1) nth($style,1) nth($color,1);
+        right: nth($widths,2) nth($style,2) nth($color,2);
+        bottom: nth($widths,3) nth($style,3) nth($color,3);
+        left: nth($widths,4) nth($style,4) nth($color,4);
+    }
+    border: {
+        top-right-radius: nth($radius,1);
+        bottom-right-radius: nth($radius,2);
+        bottom-left-radius: nth($radius,3);
+        top-left-radius: nth($radius,4);
+    } 
+};
+
+//? background colors for soc-media-box for hovering on them
+@mixin social-media-background($social-media)
+{
+    $soc-media-colors : (
+        'facebook'  : #1877F2,
+        'youtube'   : #FF0000,
+        'twitter'   : #0099FF,
+        'instagram' : #E4405F,
+    );
+    &.#{$social-media} {
+      background: map-get($soc-media-colors, $social-media);
+    }
+};
+
+//? make element look like glass
+@mixin glassmorphismContent($background: rgba(white, 0.1), $blur: 2.5rem, $shadow: (2rem, 2rem, 2rem, rgba(black,.1)),$border-radius:0rem) 
+{
+    background: $background;
+    backdrop-filter: blur($blur);
+    $x: nth($shadow, 1);
+    $y: nth($shadow, 2);
+    $shadow-blur: nth($shadow, 3);
+    $shadow-color: nth($shadow, 4);
+    box-shadow: $x $y $shadow-blur $shadow-color;
+    border-radius: $border-radius;
+};
+
+@mixin glassElement($bg-color:#fff2,$blur: 1rem)
+{
+    background: linear-gradient($bg-color, transparent);
+    backdrop-filter: blur($blur);
+
+    @include makeBorder($color: rgba($bg-color, .1));
+};
+
+//? make center element position:absolute inside relative element
+@mixin centerElement($centered:($vertical, $horizontal))
+{
+    @if nth($centered,1) == center and nth($centered,2) == center 
+    {
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+    }
+    @else if nth($centered,1) == center
+    {
+        top: 50%;
+        left: nth($centered,2);
+        transform: translateY(-50%);
+    }
+    @else if nth($centered,2) == center 
+    {
+        top: nth($centered,1);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    @else
+    {
+        top:nth($centered,1);
+        left: nth($centered,2);
+    };
+};
+
+//? 3D box shadow
+@mixin d-3BoxShadow ($color: black,$border-radius:1rem)
+{
+    box-shadow: rgba($color, 0.17) 0px -23px 25px 0px inset, 
+                rgba($color, 0.15) 0px -36px 30px 0px inset, 
+                rgba($color, 0.1) 0px -79px 40px 0px inset, 
+                rgba($color, 0.06) 0px 2px 1px, 
+                rgba($color, 0.09) 0px 4px 2px, 
+                rgba($color, 0.09) 0px 8px 4px, 
+                rgba($color, 0.09) 0px 16px 8px, 
+                rgba($color, 0.09) 0px 32px 16px;
+    border-radius: $border-radius;
+};
+
+//? Circle Progress Bar
+@mixin makeProgressCirleBar($circle-parent:(progress-bar-div,20rem,rgba(255,255,255,0.1), .5rem),$inner-circle-color: #4d4c51,$inner-circle-around-color: #222,$inner-circle-text-area-color: #333,$text-color:white,$glassmorphismContent:true,$font-size:medium)
+{
+    $circle-parent-className:nth($circle-parent,1);
+    $circle-parent-width:nth($circle-parent,2);
+    $circle-parent-background:nth($circle-parent,3);
+    $circle-parent-border-radius:nth($circle-parent,4);
+    $base-gap:calc($circle-parent-width / 20);
+    //~shadow's colors
+    $dark-shadow-color-1:rgba(black,.4);
+    $dark-shadow-color-2:rgba(black,.8);
+    $light-shadow-color:rgba(white,.5);
+    //~shadow's colors
+    //~font-properties
+    @if $font-size == small {$font-size : calc($base-gap * 2)}
+    @else if $font-size == medium {$font-size : calc($base-gap * 2.5)}
+    @else if $font-size == big {$font-size : calc($base-gap * 3)}
+    @else {$font-size: $font-size}
+    //~font-properties
+
+    .#{$circle-parent-className}
+    {
+        position: relative;
+        width: $circle-parent-width;
+        aspect-ratio: 1/1;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        @if $glassmorphismContent == true
+        {
+            @include glassmorphismContent($background:$circle-parent-background,$border-radius:$circle-parent-border-radius);
+        }
+
+        .circle // outher circle properties
+        {
+            position: relative;
+            width: calc($circle-parent-width * .8);
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100vw;
+
+            &::before // inner circle properties
+            {
+                content: '';
+                position: absolute;
+                inset: $base-gap;
+                background: $inner-circle-around-color;
+                border-radius: 100vw;
+                opacity: .7;
+            }
+
+            &::after // inner circle's inside properties
+            {
+                content: '';
+                position: absolute;
+                width: calc($circle-parent-width * .5);
+                aspect-ratio: 1/1;
+                background: $inner-circle-text-area-color;
+                @include makeBorder(0,solid,calc($base-gap * 1.5),$inner-circle-color,100vw);
+                box-shadow: 
+                    inset 0 calc($circle-parent-width * .03) calc($circle-parent-width * .06) $dark-shadow-color-1,
+                    inset 0 calc($circle-parent-width * .024) calc($circle-parent-width * .012) $dark-shadow-color-1,
+                    inset 0 calc($circle-parent-width * (-.012)) calc($circle-parent-width * .024) $light-shadow-color,
+                    0 calc($circle-parent-width * .06) calc($circle-parent-width * .06) $dark-shadow-color-2,
+                    0 calc($circle-parent-width * (-.012)) calc($circle-parent-width * .012) $light-shadow-color;
+            }
+
+            .number
+            {
+                position: relative;
+                color: $text-color;
+                z-index: 10;
+                line-height: $font-size;
+                font-size: $font-size;
+
+                .percentage
+                {
+                    line-height: calc($font-size / 2);
+                    font-size: calc($font-size / 2);
+                }
+
+                span
+                {
+                    line-height: calc($font-size / 2);
+                    font-size: calc($font-size / 2);
+                }
+            }
+
+            .name
+            {
+                position: relative;
+                color: $text-color;
+                z-index: 10;
+                font-weight: 600;
+                line-height: calc($font-size / 2);
+                font-size: calc($font-size / 2);
+                text-transform: uppercase;
+            }
+        }
+    }
+};
+
+// ? Font-size Variables Creater Function
+@mixin calcFontSize($startValue, $increaseFactor, $multiplyFactor)
+{
+    $value : calc($startValue * $multiplyFactor);
+
+    $size-name :
+    (
+        xsmall-fs,
+        small-fs, 
+        medium-fs, 
+        large-fs,
+        huge-fs,
+        xhuge-fs,
+        big-fs,
+        bigger-fs,
+        giant-fs, 
+        xgiant-fs, 
+        xxgiant-fs 
+    );
+
+
+    @each $size in $size-name
+    {
+        --#{$size}: #{$value}rem;
+
+        $value: $value + $increaseFactor;
+    }
+
+};
+
+//? Text Styles Class Creater Function
+@mixin textClass($startValue, $increaseFactor, $multiplyFactor)
+{
+    $value : calc($startValue * $multiplyFactor);
+
+    $class-name :
+    (
+       detail-text,
+       info-text,
+       sub-title,
+       main-title
+    );
+
+
+    @each $class in $class-name
+    {
+       .#{$class} 
+       {
+           font-size : #{$value}rem;
+           letter-spacing: .25rem;
+           color: var(--text-clr);
+       } 
+           
+
+        $value: $value + $increaseFactor;
+    }
+
+};
+
+//? Colors variables Creater Function
+@mixin setColors()
+{
+
+    @each $key, $value in $colors
+    {
+       --#{$key}:#{$value};
+    }
+
+};
+
+//? Manuplating Elements in 2D
+@mixin show2D($translate: (5rem,2rem),$rotate: 45deg, $scale: 1.5, $skew: (20deg,10deg))
+{
+    $translate-x: nth($translate,1);
+    $translate-y: nth($translate,2);
+    $skew-x : nth($skew,1);
+    $skew-y : nth($skew,2);
+
+    transform: translate($translate-x, $translate-y);
+    transform: rotate($rotate);
+    transform: scale($scale);
+    transform: skew($skew-x, $skew-y);
+};
+
+//? Manuplating Elements in 3D
+@mixin show3D($perspective: 100rem, $angle: 30deg)
+{
+    transform: perspective($perspective) rotateY($angle);
+};
+
+//? Blinking Text Animation in Element
+@mixin blinkingText($blinking-speed: 2s, $blink-times: infinite, $set-time-out: none)
+{
+    animation: blinking $blinking-speed ease-in-out $blink-times;
+    animation-delay: $set-time-out;
+
+    @keyframes blinking 
+    {
+        0% {opacity: 0;}    
+        50% {opacity: 1;}    
+        100% {opacity: 0;}    
+    }
+};
+
+//? Sticky Navbar Animation
+@mixin stickyNavbarAnimation($animationStartsAfter:50dvh, $animationDistance:50rem, $logo-height:10rem, $textColorStart:hsl(0 10% 90%), $textColorEnd:hsl(0 10% 90%),$backgroundColorStart:hsl(0 10% 5%), $backgroundColorEnd:hsl(0 50% 90% / 0.1),$border-color:hsl(0 50% 90% / 0.1),$d3BoxEffect: false)
+{
+    width: var(--headerWidth, 100%); // undefined property isn't executed so second value is accepted by ide
+    color: $textColorStart;
+    background-color: $backgroundColorStart;
+
+    .logo
+    {
+        display: var(--noLogo, block); // undefined property isn't executed so second value is accepted by ide
+        height: $logo-height;
+    }
+
+    @supports (animation-timeline: view()) {
+        position: sticky;
+        z-index: 1000;
+        top: calc(($logo-height + $logo-height / 2) * -1);  // for stick the navbar outside of the niewport after animation begins
+        backdrop-filter: blur(.40rem);
+        animation: stickyNavbar linear forwards;
+        animation-timeline: view();
+        animation-range-start: calc(100dvh + $animationStartsAfter);
+        animation-range-end: calc(100dvh + $animationStartsAfter + $animationDistance);
+
+        @keyframes stickyNavbar {
+            0%, 100% {
+                --headerWidth: fit-content;
+                --noLogo: none;
+                @include makeBorder($color:$border-color);
+            }
+
+            100% {
+                top: 2rem;
+                color: $textColorEnd;
+                background-color: $backgroundColorEnd;
+                border-radius: 100vw;
+                @if $d3BoxEffect == false
+                {
+                    box-shadow: 
+                        0 0 .75rem hsl(0 0% 0% / .3),
+                        inset 0 0 0.5rem hsl(0 0% 100% / 0.1);
+                }
+                @else if $d3BoxEffect == true
+                {
+                    @include d-3BoxShadow($border-radius:100vw);
+                }
+            }    
+        }
+    }
+};
+
+//? Get numeric chars in text string
+//** Remove the unit of a length
+//* @param {Number} $number - Number to remove unit from
+//* @return {Number} - Unitless number
+@function strip-unit($number)
+{
+    @if type-of($number) == 'number' and not unitless($number)
+    {
+        $division: ($number * 0 ) + 1;
+        @return calc($number / $division);
+    }
+    @return $number;
+}
+
+//? Pythagorean Theorem
+@function pythagorean($a, $b)
+{
+    $a-value: strip-unit($a);
+    $b-value: strip-unit($b);
+
+    // Pythagorean Theorem: c^2 = a^2 + b^2
+    $c: sqrt(pow($a-value, 2) + pow($b-value, 2));
+    @return $c;
+}

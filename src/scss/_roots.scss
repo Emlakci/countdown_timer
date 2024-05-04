@@ -1,0 +1,38 @@
+@import 'functions';
+
+:root
+{
+    //? Backgrounds & Colors
+
+    @include setColors();
+
+    //? Backgrounds & Colors
+    //? Font Sizes
+
+    //! func. params : ($startValue, $increaseFactor, $multiplyFactor)
+    @include calcFontSize(1,0.25,1);
+
+    //? Font Sizes
+    //? Area Sizes
+
+    --scale-factor : 1;
+    --base-w       : calc(10rem * var(--scale-factor)); // 100px
+    --base-h       : calc(10rem * var(--scale-factor)); // 100px
+    --base-dvh     : calc(10dvh * var(--scale-factor)); // 10dvh
+    --base-gap     : calc(1rem * var(--scale-factor)); // 10px
+    --base-padding : calc(1rem * var(--scale-factor)); // 10px
+    
+    //? Area Sizes
+
+//* MEDIA QUERIES -BREAK POINTS- FOR PAGE
+    @media screen and (max-width : 768px) 
+    {
+        //? Font Sizes
+        @include calcFontSize(1,.25,.8);
+        //? Font Sizes
+        //? Area Sizes
+        --scale-factor : 0.5;
+        //? Area Sizes
+    }
+//* MEDIA QUERIES -BREAK POINTS- FOR PAGE
+}

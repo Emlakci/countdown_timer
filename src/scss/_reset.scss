@@ -1,0 +1,74 @@
+@import 'functions';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Dancing Script', cursive;
+}
+
+//# optinal p property for first letter biggger and first row indent #//
+%first-letter-big
+{
+    &::first-letter
+    {           
+        font-size: calc(var(--small-fs)*2);   
+    }
+}
+
+%text-indent
+{
+    text-indent: var(--giant-fs);
+}
+//# optinal p property for first letter biggger and first row indent #//
+
+
+html{
+    font-size:  10px;  // 1rem = 10px
+    // color-scheme: dark;
+
+    //responsive img/vids 
+    img, picture, svg, video
+    {
+        display: block;
+        max-width: 100%;
+        object-fit:cover;
+        object-position: center;
+    }
+
+    h1,h2,h3,h4,h5,h6
+    {
+        text-wrap: balance;
+    }
+
+    p
+    {
+        text-wrap: pretty;
+        padding: .5rem;
+    }
+
+    ol,ul
+    {
+        list-style: none;
+    }
+
+    a 
+    {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    //# GLOBAL CLASSES #//
+    //! func. params : ($startValue, $increaseFactor, $multiplyFactor)
+    @include textClass(1,.5,1);
+    //# GLOBAL CLASSES #//
+
+
+
+    //+ MEDIA QUERIES +//
+    @media screen and (max-width : 768px) 
+    {
+        @include textClass(1,.5,.6);   
+    }  
+}
+

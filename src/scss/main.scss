@@ -1,0 +1,47 @@
+//# General Rules #//
+@use "sass:map";
+
+@import 'variables';
+@import 'reset';
+@import 'roots';
+@import 'functions';
+
+//# General Rules #//
+
+body
+{
+    background: var(--clr-neutral-100);
+    @include mainLayout();
+
+    //+ header +//
+    // header
+    // {
+    //     grid-row: 1;
+    // }
+    //+ header +//
+
+     //+ main#content +//
+     #content
+     {
+        grid-row: 1;
+
+        width: 100%;
+        min-height: 100dvh;
+        position: relative;
+
+        @include makeFlex(row,1,1);
+
+        #timer-area
+        {
+         @include makeFlex(row,1,1,0rem);
+            position: absolute;
+            top: 10rem;
+            right: 10rem;
+            width: 30rem;
+            min-height: 30rem;
+            background-color: blue;
+        }
+     }
+     //+ main#content +//
+
+}

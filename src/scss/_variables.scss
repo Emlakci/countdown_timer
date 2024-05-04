@@ -1,0 +1,106 @@
+//+ Font Styles +//
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap'); //! font-family: 'Dancing Script', cursive; // *Hand Writing
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Maps&display=swap'); //! font-family: 'Rubik Maps', system-ui; // * Writing include images to bg. -Icon or Sth.-
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); //! font-family: 'Press Start 2P', system-ui; // *2D Game Writing
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap'); //! font-family: 'Tangerine', cursive; // *Hand Writing
+@import url('https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap'); //! font-family: 'Ballet', cursive; // *Hand Writing
+@import url('https://fonts.googleapis.com/css2?family=Bigelow+Rules&display=swap'); //! font-family: 'Bigelow Rules', serif; // *Vampire Style
+@import url('https://fonts.googleapis.com/css2?family=Ewert&display=swap'); //! font-family: 'Ewert', serif; // *American Style -Header-
+@import url('https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap'); //! font-family: 'Sedgwick Ave Display', cursive; // *hip-pop -Header-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sedgwick+Ave+Display&display=swap'); //! font-family: 'Poppins', sans-serif; // * Normal writing -normal
+//+ Font Styles +//
+
+//? Font Family
+$font-family : (
+    'fm-hw-1'   : unquote("'Dancing Script', cursive"),
+    'fm-hw-2'   : unquote("'Tangerine', cursive"),
+    'fm-hw-3'   : unquote("'Ballet', cursive"),
+    'fm-2d'     : unquote("'Press Start 2P', system-ui"),
+    'fm-vamp'   : unquote("'Bigelow Rules', serif"),
+    'fm-hd-1'   : unquote("'Ewert', serif"),
+    'fm-hd-2'   : unquote("'Sedgwick Ave Display', cursive"),
+    'fm-icn'    : unquote("'Rubik Maps', system-ui"),
+    'fm-neutral': unquote("'Poppins', sans-serif")
+);
+//? Font Family
+
+//? Color Palette
+$colors : (
+    'dark-blue-gray'    : #0F1F2E,
+    'dark-navy-blue'    : #041E42,
+    'midnight-blue'     : #19324D,
+    'dark-slate-blue'   : #19344D,
+    'teal'              : #083D41,
+    'deep-teal'         : #088178,
+
+    'neon-blue'     : #011EFE,
+    'facebook'      : #1877F2,
+    'twitter'       : #0099FF,
+    'candy-blue'    : #00AAFF,
+    'vivid-blue'    : #03A9F4,
+    'electric-blue' : #00EEFF,
+    'light-blue'    : #BFEFFF,
+
+    'dark-fuchsia'  : #9E0059,
+    'neon-red'      : #FE0000,
+    'youtube'       : #FF0000,
+    'candy-red'     : #FF00AA,
+    'instagram'     : #E4405F,
+    'vivid-pink'    : #CB48B7,
+    'neon-pink'     : #FE00F6,
+    'light-pink'    : #FFB3FF,
+    'candy-purple'  : #AA00FF,
+
+    'candy-orange'  : #FFAA00,
+    'light-orange'  : #FFB27F,
+    'vivid-yellow'  : #FFD23F,
+    'neon-yellow'   : #FDFE02,
+    'vivid-green'   : #CEFF1A,
+    'light-green'   : #B3FFB3,
+    'candy-lime'    : #AAFF00,
+    'neon-green'    : #0BFF01,
+
+    'grey'          : #808080,
+    'light-grayish' : #C6C5B9,
+    'pale-oatmeal'  : #C6C5B0,
+    'sage-green'    : #C5C6B9,
+    'dusty-lavender': #C9C5B9,
+
+    'clr-primary-700': hsl(219, 76%, 75%),
+    'clr-primary-600': hsl(219, 76%, 50%),
+    'clr-primary-500': hsl(219, 76%, 35%),
+    'clr-primary-400': hsl(219, 76%, 25%),
+    'clr-primary-300': hsl(219, 76%, 15%),
+
+    'clr-secondary-700': hsl(269, 75%, 75%),
+    'clr-secondary-600': hsl(269, 75%, 50%),
+    'clr-secondary-500': hsl(269, 75%, 35%),
+    'clr-secondary-400': hsl(269, 75%, 20%),
+    'clr-secondary-300': hsl(269, 75%, 15%),
+
+    'clr-accent-700': hsl(358, 72%, 75%),
+    'clr-accent-600': hsl(358, 72%, 50%),
+    'clr-accent-500': hsl(358, 72%, 35%),
+    'clr-accent-400': hsl(358, 72%, 20%),
+    'clr-accent-300': hsl(358, 72%, 15%),
+
+    'clr-neutral-900': hsl(219, 15%, 90%),
+    'clr-neutral-700': hsl(219, 15%, 75%),
+    'clr-neutral-600': hsl(219, 15%, 50%),
+    'clr-neutral-500': hsl(219, 15%, 35%),
+    'clr-neutral-400': hsl(219, 15%, 20%),
+    'clr-neutral-300': hsl(219, 15%, 15%),
+    'clr-neutral-100': hsl(219, 15%, 5%),
+);
+
+//? Color Palette
+
+//? Break Points
+$break-points : (
+    'large-screen' : unquote("width > 1366px"),
+    'normal-screen' : unquote("1000px < width <= 1366px"),
+    'small-screen' : unquote("768px < width <= 1000px"),
+    'tablet-screen' : unquote("425px < width <= 768px"),
+    'mobile-screen' : unquote("320px < width <= 425px")
+)
+//? Break Points
